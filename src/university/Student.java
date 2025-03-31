@@ -3,16 +3,19 @@ package university;
 import university.examination.Evaluator;
 import university.examination.Exam;
 import university.examination.ExamRegistrar;
+import university.exception.RegistrarException;
+import university.exception.UniversityException;
 import university.registration.Registrar;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Student {
     private String name;
     private String maritalStatus;
     private int age;
     private String sex;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private String address;
     private String primaryEmailId;
     private String secondaryEmailId;
@@ -20,16 +23,17 @@ public class Student {
     private String highestEducationQualification;
     private String nationality;
     private String admissionId ;
-
     private String result;
     private Exam exam;
+    private Subject subject;
 
     public Student(String name, String maritalStatus, int age, String sex, String dateOfBirth, String address, String primaryEmailId, String secondaryEmailId, String phoneNumber, String highestEducationQualification, String nationality, String admissionId, String result, Exam exam) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.name = name;
         this.maritalStatus = maritalStatus;
         this.age = age;
         this.sex = sex;
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = LocalDate.parse(dateOfBirth,dateFormatter);
         this.address = address;
         this.primaryEmailId = primaryEmailId;
         this.secondaryEmailId = secondaryEmailId;
@@ -41,9 +45,9 @@ public class Student {
         this.exam = exam;
     }
 
-    public void registerStudent(){
+    public void registerStudent() throws UniversityException, RegistrarException {
         Registrar registrar = Registrar.getRegistrar();
-        this.admissionId = registrar.registerStudent(this);
+        registrar.registerStudent(this);
         System.out.println("Student registered with id: " + this.admissionId);
     }
     public void registerForExam(){
@@ -90,11 +94,11 @@ public class Student {
         this.sex = sex;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

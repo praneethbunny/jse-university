@@ -1,14 +1,38 @@
+import university.GenerateStudentData;
 import university.Student;
 import university.examination.Exam;
+import university.exception.RegistrarException;
+import university.exception.UniversityException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
-    public static void main(String[] args) {
-        Student student = new Student("John", "Single",19,"Male","19-05-2006","Hyderabad","john.elka@out.com","john143@email.com","9876542310","SSC","UAE","","", null);
-        student.registerStudent();
-        student.registerForExam();
-        student.appearForExam();
-        System.out.println("Hello world!");
+    public static void main(String[] args) throws UniversityException {
+        try {
+            ForkJoinPool customPool = new ForkJoinPool(5);
+            List<Student> list = GenerateStudentData.getStudentsList();
+            customPool.submit(() -> {
+                list.parallelStream().forEach(s->{
+                    try {
+                        s.registerStudent();
+                        s.registerForExam();
+                        s.appearForExam();
+                        System.out.println("Student registered for university then for exam and passed!");
+                    } catch (UniversityException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RegistrarException e){
+                        throw new RuntimeException(e.getMessage());
+                    }
+                });
+            }).join();
+            customPool.shutdown();
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
