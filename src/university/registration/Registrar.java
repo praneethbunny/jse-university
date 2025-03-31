@@ -28,7 +28,7 @@ public class Registrar {
         if(!validator.validateStudentDetails(student)){
             throw new UniversityException("Student validation is failed");
         }if(sharedSet.size()<30) {
-            student.setAdmissionId(student.getName().substring(0, 1) + student.getPhoneNumber().substring(7, 10));
+            student.setAdmissionId(student.getName().charAt(0) + student.getPhoneNumber().substring(7, 10));
             sharedSet.add(student);
         }else{
             throw new RegistrarException("30 seats are filled");

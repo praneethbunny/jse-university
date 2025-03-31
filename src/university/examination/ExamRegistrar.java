@@ -14,7 +14,6 @@ public class ExamRegistrar {
     }
     public Exam registeringStudentForExamination (Student student){
         Paper paper = new Paper();
-        Exam exam = new Exam(paper);
-        return exam;
+        return new Exam(paper);
     }
 }

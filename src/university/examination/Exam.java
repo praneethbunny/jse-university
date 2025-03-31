@@ -1,7 +1,7 @@
 package university.examination;
 
 public class Exam {
-    private Paper paper;
+    private final Paper paper;
     public Exam(Paper paper){
         this.paper = paper;
     }

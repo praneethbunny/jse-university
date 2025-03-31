@@ -1,12 +1,8 @@
 import university.GenerateStudentData;
 import university.Student;
-import university.examination.Exam;
 import university.exception.RegistrarException;
 import university.exception.UniversityException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
